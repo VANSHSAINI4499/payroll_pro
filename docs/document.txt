@@ -1,0 +1,1115 @@
+================================================================================
+                         PAYROLL MANAGEMENT SYSTEM
+================================================================================
+
+                      Software Engineering Mini Project
+
+--------------------------------------------------------------------------------
+
+Project Title    : Payroll Management System
+Subject          : Software Engineering
+Academic Year    : 2025-2026
+
+--------------------------------------------------------------------------------
+
+Student Details:
+
+  Name           : ____________________________
+  SAP ID         : ____________________________
+  Section        : ____________________________
+
+  Name           : ____________________________
+  SAP ID         : ____________________________
+  Section        : ____________________________
+
+  Name           : ____________________________
+  SAP ID         : ____________________________
+  Section        : ____________________________
+
+  Name           : ____________________________
+  SAP ID         : ____________________________
+  Section        : ____________________________
+
+--------------------------------------------------------------------------------
+
+Submitted To     : ____________________________
+Department       : Computer Science and Engineering
+Institution      : ____________________________
+
+================================================================================
+
+
+================================================================================
+                                  INDEX
+================================================================================
+
+  S.No.   Section                                         Page No.
+  -----   -------                                         --------
+  1.      Objective                                       ________
+  2.      Expected Input                                  ________
+  3.      Expected Output                                 ________
+  4.      Software Requirements Specification (SRS)       ________
+  5.      ER Diagram                                      ________
+  6.      Class Diagram                                   ________
+  7.      Implementation                                  ________
+  8.      Code                                            ________
+  9.      Test Cases                                      ________
+  10.     Conclusion                                      ________
+  11.     Future Scope                                    ________
+  12.     References                                      ________
+
+================================================================================
+
+
+================================================================================
+1. OBJECTIVE
+================================================================================
+
+The objective of this project is to design and develop a Payroll Management
+System that automates the process of managing employee records, tracking
+attendance, calculating salaries, applying tax deductions, generating payslips,
+and maintaining payroll history for an organization.
+
+The system aims to replace manual payroll processing with a reliable and
+efficient digital solution. It provides a centralized platform where
+administrators can manage employee information, define salary structures, record
+attendance data, and generate accurate payslips with minimal effort. The system
+ensures that salary calculations, including bonuses and deductions, are
+performed consistently and in compliance with applicable tax rules.
+
+By developing this system, we aim to reduce human errors in payroll processing,
+save time for HR and finance departments, and provide employees with transparent
+access to their salary details and payslip records.
+
+
+================================================================================
+2. EXPECTED INPUT
+================================================================================
+
+The Payroll Management System accepts the following inputs from the user:
+
+  1. Employee Details
+     - Employee name, email address, phone number, date of joining
+     - Employee ID (auto-generated or manually assigned)
+
+  2. Department and Designation
+     - Department name (e.g., Engineering, HR, Finance)
+     - Designation or job title (e.g., Software Engineer, Manager)
+
+  3. Attendance Data
+     - Date of attendance entry
+     - Status (Present, Absent, Half-Day, Leave)
+     - Total working days in the pay period
+
+  4. Salary Components
+     - Basic salary
+     - House Rent Allowance (HRA)
+     - Dearness Allowance (DA)
+     - Other allowances
+
+  5. Bonus and Deductions
+     - Performance bonus or incentive amount
+     - Provident Fund (PF) deduction
+     - Other deductions (loan recovery, penalties)
+
+  6. Tax Details
+     - Income tax slab or percentage
+     - Professional tax amount
+     - Tax exemptions or rebates
+
+  7. Bank Account or Payment Details
+     - Bank name and account number
+     - Payment mode (bank transfer, cheque, cash)
+
+  8. Authentication Credentials
+     - Admin or HR login email and password
+     - New user registration details
+
+
+================================================================================
+3. EXPECTED OUTPUT
+================================================================================
+
+The Payroll Management System produces the following outputs:
+
+  1. Employee record added, updated, or deleted successfully.
+
+  2. Employee list displayed with details such as name, department,
+     designation, and contact information.
+
+  3. Attendance summary displayed for each employee showing total
+     present days, absent days, and leave days.
+
+  4. Salary calculated successfully based on attendance, basic pay,
+     allowances, bonuses, and deductions.
+
+  5. Tax deducted properly from the gross salary as per applicable
+     tax rules and slabs.
+
+  6. Net salary computed after applying all deductions including
+     tax, provident fund, and other withholdings.
+
+  7. Payslip generated for each employee with a detailed breakdown
+     of earnings and deductions.
+
+  8. Payroll history displayed showing past salary records and
+     payment summaries for each employee.
+
+  9. Dashboard statistics displayed including total employees,
+     total payroll amount, and attendance overview.
+
+  10. Error messages displayed for invalid inputs such as empty
+      fields, incorrect data formats, or unauthorized access
+      attempts.
+
+
+================================================================================
+4. SOFTWARE REQUIREMENTS SPECIFICATION (SRS)
+================================================================================
+
+
+--------------------------------------------------------------------------------
+4.1 Preface
+--------------------------------------------------------------------------------
+
+This Software Requirements Specification (SRS) document provides a detailed
+description of the Payroll Management System. It defines the functional and
+non-functional requirements, system architecture, and user expectations for the
+project.
+
+This document is intended for:
+  - Developers working on the implementation of the system
+  - Project evaluators reviewing the system design and functionality
+  - Faculty members guiding the project
+  - Future developers who may maintain or extend the system
+
+The purpose of this document is to serve as a comprehensive reference that
+outlines what the system does, how it is structured, and what constraints
+it must satisfy.
+
+
+--------------------------------------------------------------------------------
+4.2 Introduction
+--------------------------------------------------------------------------------
+
+Payroll management is a critical function in any organization. It involves
+calculating employee salaries, managing deductions, tracking attendance,
+generating payslips, and maintaining records of all financial transactions
+related to employee compensation.
+
+Traditional payroll processing relies heavily on manual calculations using
+spreadsheets or paper-based systems. This approach is time-consuming, prone
+to human error, and difficult to scale as the number of employees grows.
+Errors in salary calculation or tax deduction can lead to employee
+dissatisfaction and legal complications.
+
+The Payroll Management System addresses these challenges by providing a
+web-based application that automates the entire payroll workflow. The system
+allows authorized users to manage employee data, record attendance, configure
+salary structures, calculate net salaries with applicable deductions, and
+generate detailed payslips.
+
+The system is built using modern web technologies and follows industry-standard
+software engineering practices to ensure reliability, security, and ease of
+maintenance.
+
+
+--------------------------------------------------------------------------------
+4.3 Glossary
+--------------------------------------------------------------------------------
+
+  Term              Definition
+  ----              ----------
+
+  Payroll           The process of calculating and distributing employee
+                    wages, salaries, bonuses, and deductions within an
+                    organization.
+
+  Salary            The fixed amount of money paid to an employee at
+                    regular intervals in exchange for work performed.
+
+  Gross Salary      The total salary before any deductions are applied,
+                    including basic pay, allowances, and bonuses.
+
+  Net Salary        The final salary amount received by the employee
+                    after all deductions such as tax and provident fund.
+
+  Deduction         An amount subtracted from the gross salary, such as
+                    income tax, provident fund, or loan recovery.
+
+  Allowance         An additional payment provided to the employee beyond
+                    the basic salary, such as HRA or DA.
+
+  Attendance        A record of an employee's presence or absence at the
+                    workplace on each working day.
+
+  Payslip           A document issued to an employee that provides a
+                    detailed breakdown of salary components, deductions,
+                    and the net amount payable.
+
+  Bonus             An extra payment given to an employee, often based on
+                    performance, festival occasions, or company profit.
+
+  Tax               A mandatory financial charge imposed by the government
+                    on an individual's income, deducted from salary.
+
+  Employee          A person who works for the organization and receives
+                    salary through the payroll system.
+
+  Admin             An authorized user who manages the payroll system,
+                    including employee records, attendance, and payroll
+                    processing.
+
+  MVVM              Model-View-ViewModel, a software architecture pattern
+                    that separates the user interface from business logic
+                    and data management.
+
+  Firebase          A cloud-based platform by Google that provides database,
+                    authentication, and hosting services.
+
+  API               Application Programming Interface, a set of protocols
+                    that allows different software systems to communicate.
+
+
+--------------------------------------------------------------------------------
+4.4 User Requirements Definition
+--------------------------------------------------------------------------------
+
+The following user requirements define what the users of the Payroll Management
+System can do:
+
+  1. Admin Registration and Login
+     - A new admin or HR user can register an account using email and password.
+     - An existing user can log in securely using their credentials.
+     - The system authenticates the user before granting access to the
+       dashboard.
+
+  2. Employee Management
+     - The admin can add a new employee with details such as name, email,
+       phone, department, designation, and joining date.
+     - The admin can view a list of all employees with their details.
+     - The admin can edit employee information when changes occur.
+     - The admin can delete an employee record when the employee leaves
+       the organization.
+
+  3. Attendance Management
+     - The admin can mark daily attendance for each employee.
+     - The system records the attendance status as Present, Absent,
+       Half-Day, or Leave.
+     - The admin can view an attendance summary for any employee over
+       a selected period.
+
+  4. Salary Calculation
+     - The admin can configure salary components such as basic pay,
+       HRA, DA, and other allowances for each employee.
+     - The system calculates gross salary based on the configured
+       components and attendance.
+     - The system applies deductions such as provident fund, income
+       tax, and other withholdings.
+     - The system computes the net salary payable to the employee.
+
+  5. Payslip Generation
+     - The admin can generate a payslip for an employee for a
+       specific month.
+     - The payslip displays a complete breakdown of earnings and
+       deductions.
+     - The admin can view and review generated payslips.
+
+  6. Payroll Overview
+     - The admin can view the payroll summary for a given pay period.
+     - The system displays total payroll cost, number of employees
+       processed, and aggregate statistics.
+
+  7. Dashboard
+     - The admin can view a dashboard with key statistics including
+       total employees, total payroll amount, attendance overview,
+       and recent payroll activity.
+
+
+--------------------------------------------------------------------------------
+4.5 System Architecture
+--------------------------------------------------------------------------------
+
+The Payroll Management System follows a layered architecture that separates
+concerns into three distinct layers:
+
+  1. Presentation Layer (Frontend)
+     - Built using Next.js with TypeScript and Tailwind CSS.
+     - Provides an interactive web-based user interface for admin users.
+     - Implements views for login, signup, dashboard, employee management,
+       attendance tracking, payroll processing, and payslip generation.
+     - Uses the MVVM (Model-View-ViewModel) pattern to separate UI
+       rendering from business logic.
+     - ViewModels handle data binding and state management.
+     - Services handle communication with the backend and database.
+
+  2. Business Logic Layer (Backend)
+     - A Python FastAPI backend is used for complex salary and tax
+       calculations.
+     - The backend exposes REST API endpoints for salary computation
+       and tax deduction logic.
+     - Calculation rules are encapsulated in service classes such as
+       SalaryCalculator and TaxCalculator.
+     - The backend validates input data and returns computed results
+       to the frontend.
+
+  3. Data Layer (Database)
+     - Firebase Firestore is used as the primary cloud database.
+     - Firebase Authentication manages user login and registration.
+     - Data is organized into collections such as employees, attendance,
+       payroll, payslips, and users.
+     - The database stores all employee records, attendance logs,
+       salary configurations, and generated payslips.
+
+Architecture Flow:
+
+  User Interface (Next.js)
+       |
+       v
+  ViewModels (State and Logic)
+       |
+       v
+  Services (API and Firebase calls)
+       |
+       +--> Firebase Firestore (Database)
+       |
+       +--> Python FastAPI (Salary/Tax Calculations)
+
+
+--------------------------------------------------------------------------------
+4.6 System Requirements Specification
+--------------------------------------------------------------------------------
+
+
+4.6.1 Functional Requirements
+-----------------------------
+
+  FR-01  Add Employee
+         The system shall allow the admin to add a new employee by
+         entering the employee's name, email, phone, department,
+         designation, and date of joining.
+
+  FR-02  Edit Employee
+         The system shall allow the admin to update the details of
+         an existing employee.
+
+  FR-03  Delete Employee
+         The system shall allow the admin to remove an employee
+         record from the system.
+
+  FR-04  View Employee List
+         The system shall display a list of all employees with
+         their details in a tabular format.
+
+  FR-05  Mark Attendance
+         The system shall allow the admin to record daily attendance
+         for each employee with the status of Present, Absent,
+         Half-Day, or Leave.
+
+  FR-06  View Attendance Summary
+         The system shall display an attendance summary for each
+         employee over a selected time period.
+
+  FR-07  Calculate Salary
+         The system shall compute the gross salary based on basic
+         pay, allowances, and bonuses. It shall then calculate the
+         net salary after applying deductions including tax and
+         provident fund.
+
+  FR-08  Apply Tax and Deductions
+         The system shall apply income tax and other mandatory
+         deductions based on configured tax rules and deduction
+         parameters.
+
+  FR-09  Generate Payslip
+         The system shall generate a payslip for an employee that
+         includes a detailed breakdown of all salary components,
+         deductions, and the net payable amount.
+
+  FR-10  View Payroll Records
+         The system shall display payroll history showing past
+         salary records for each employee.
+
+  FR-11  User Authentication
+         The system shall require users to log in with valid
+         credentials before accessing any system functionality.
+
+  FR-12  User Registration
+         The system shall allow new admin or HR users to register
+         an account with email and password.
+
+  FR-13  Dashboard Overview
+         The system shall display a dashboard with key metrics
+         including total employees, total payroll amount, and
+         attendance statistics.
+
+
+4.6.2 Non-Functional Requirements
+----------------------------------
+
+  NFR-01  Performance
+          The system shall load pages within 3 seconds under normal
+          network conditions. Salary calculations shall complete
+          within 2 seconds for a single employee.
+
+  NFR-02  Reliability
+          The system shall maintain data consistency and accuracy
+          in all salary calculations. The system shall handle
+          unexpected errors gracefully without data loss.
+
+  NFR-03  Security
+          The system shall use Firebase Authentication for secure
+          user login. Sensitive data such as passwords shall be
+          encrypted. Access to the system shall be restricted to
+          authenticated users only.
+
+  NFR-04  Scalability
+          The system shall be capable of handling up to 500
+          employee records without degradation in performance.
+          The architecture shall support future scaling to
+          accommodate more users and data.
+
+  NFR-05  Usability
+          The system shall provide a clean and intuitive user
+          interface. Navigation between different sections shall
+          be straightforward. Form inputs shall have clear labels
+          and validation messages.
+
+  NFR-06  Maintainability
+          The system shall follow modular architecture with
+          separation of concerns. Code shall be organized into
+          well-defined layers (models, services, viewmodels, views)
+          to facilitate easy maintenance and future enhancements.
+
+  NFR-07  Availability
+          The system shall be available at all times as it is
+          hosted on cloud infrastructure. Planned maintenance
+          windows shall be communicated in advance.
+
+  NFR-08  Compatibility
+          The system shall be compatible with modern web browsers
+          including Google Chrome, Mozilla Firefox, Microsoft Edge,
+          and Safari.
+
+
+================================================================================
+5. ER DIAGRAM
+================================================================================
+
+The Entity-Relationship (ER) Diagram represents the database structure of the
+Payroll Management System. It shows the entities involved in the system and
+the relationships between them.
+
+Entities:
+---------
+
+  1. User
+     - userId (Primary Key)
+     - email
+     - password (hashed)
+     - role (admin, HR)
+     - createdAt
+
+  2. Employee
+     - employeeId (Primary Key)
+     - name
+     - email
+     - phone
+     - department
+     - designation
+     - dateOfJoining
+     - bankAccount
+     - status (active, inactive)
+
+  3. Department
+     - departmentId (Primary Key)
+     - departmentName
+     - description
+
+  4. Attendance
+     - attendanceId (Primary Key)
+     - employeeId (Foreign Key -> Employee)
+     - date
+     - status (Present, Absent, Half-Day, Leave)
+
+  5. Salary
+     - salaryId (Primary Key)
+     - employeeId (Foreign Key -> Employee)
+     - basicPay
+     - hra
+     - da
+     - otherAllowances
+     - bonus
+     - pfDeduction
+     - taxDeduction
+     - otherDeductions
+     - grossSalary
+     - netSalary
+     - month
+     - year
+
+  6. Payslip
+     - payslipId (Primary Key)
+     - employeeId (Foreign Key -> Employee)
+     - salaryId (Foreign Key -> Salary)
+     - generatedDate
+     - month
+     - year
+     - totalEarnings
+     - totalDeductions
+     - netPay
+
+Relationships:
+--------------
+
+  - One Employee belongs to one Department.
+    One Department can have many Employees.
+    (Employee -- many-to-one -- Department)
+
+  - One Employee can have many Attendance records.
+    Each Attendance record belongs to one Employee.
+    (Employee -- one-to-many -- Attendance)
+
+  - One Employee can have many Salary records (one per pay period).
+    Each Salary record belongs to one Employee.
+    (Employee -- one-to-many -- Salary)
+
+  - One Salary record can have one Payslip.
+    Each Payslip is linked to one Salary record and one Employee.
+    (Salary -- one-to-one -- Payslip)
+    (Employee -- one-to-many -- Payslip)
+
+  - One User (Admin) manages multiple Employee records, Attendance
+    records, and Payroll transactions.
+
+
+              [Figure: ER Diagram of Payroll Management System]
+
+     (Insert the ER diagram image or drawing here during submission)
+
+
+================================================================================
+6. CLASS DIAGRAM
+================================================================================
+
+The Class Diagram represents the object-oriented structure of the Payroll
+Management System. It shows the classes, their attributes, methods, and the
+relationships between them.
+
+Classes:
+--------
+
+  1. Employee
+     Attributes:
+       - employeeId: string
+       - name: string
+       - email: string
+       - phone: string
+       - department: string
+       - designation: string
+       - dateOfJoining: string
+       - bankAccount: string
+       - status: string
+     Methods:
+       - getDetails(): Employee
+       - updateDetails(data): void
+
+  2. Attendance
+     Attributes:
+       - attendanceId: string
+       - employeeId: string
+       - date: string
+       - status: string (Present / Absent / Half-Day / Leave)
+     Methods:
+       - markAttendance(employeeId, date, status): void
+       - getAttendanceSummary(employeeId): AttendanceSummary
+
+  3. SalaryCalculator
+     Attributes:
+       - basicPay: number
+       - hra: number
+       - da: number
+       - allowances: number
+       - bonus: number
+       - deductions: number
+     Methods:
+       - calculateGrossSalary(): number
+       - calculateNetSalary(): number
+       - applyDeductions(deductions): number
+
+  4. TaxCalculator
+     Attributes:
+       - grossSalary: number
+       - taxSlab: string
+       - exemptions: number
+     Methods:
+       - calculateIncomeTax(grossSalary): number
+       - calculateProfessionalTax(): number
+       - getTotalTax(): number
+
+  5. Payslip
+     Attributes:
+       - payslipId: string
+       - employeeId: string
+       - month: string
+       - year: number
+       - totalEarnings: number
+       - totalDeductions: number
+       - netPay: number
+       - generatedDate: string
+     Methods:
+       - generatePayslip(employeeId, month, year): Payslip
+       - getPayslipDetails(payslipId): Payslip
+
+  6. PayrollService
+     Attributes:
+       - payrollRecords: list
+     Methods:
+       - processPayroll(employeeId, month): PayrollResult
+       - getPayrollHistory(employeeId): list
+       - getPayrollSummary(month, year): PayrollSummary
+
+  7. AuthService
+     Attributes:
+       - currentUser: User
+     Methods:
+       - login(email, password): User
+       - signup(email, password): User
+       - logout(): void
+       - getCurrentUser(): User
+
+  8. EmployeeService
+     Attributes:
+       - employees: list
+     Methods:
+       - addEmployee(data): Employee
+       - updateEmployee(employeeId, data): Employee
+       - deleteEmployee(employeeId): void
+       - getEmployeeList(): list
+       - getEmployeeById(employeeId): Employee
+
+  9. Department
+     Attributes:
+       - departmentId: string
+       - departmentName: string
+       - description: string
+     Methods:
+       - getDepartmentDetails(): Department
+       - getEmployeesInDepartment(): list
+
+Relationships:
+--------------
+
+  - EmployeeService manages Employee objects (composition).
+  - PayrollService uses SalaryCalculator and TaxCalculator to compute
+    salary and tax (dependency).
+  - PayrollService generates Payslip objects (association).
+  - Attendance is associated with Employee (association).
+  - AuthService manages User authentication independently.
+  - Department is associated with Employee (one-to-many).
+
+
+            [Figure: Class Diagram of Payroll Management System]
+
+     (Insert the Class Diagram image or drawing here during submission)
+
+
+================================================================================
+7. IMPLEMENTATION
+================================================================================
+
+The Payroll Management System is developed using modern web technologies and
+follows established software engineering practices for clean code organization
+and maintainability.
+
+Technology Stack:
+-----------------
+
+  Frontend:
+    - Next.js (React framework for server-side rendering and routing)
+    - TypeScript (statically typed JavaScript for type safety)
+    - Tailwind CSS (utility-first CSS framework for responsive design)
+
+  Backend:
+    - Python FastAPI (lightweight REST API framework for salary and tax
+      calculation logic)
+
+  Database:
+    - Firebase Firestore (cloud-based NoSQL document database)
+
+  Authentication:
+    - Firebase Authentication (secure email and password-based login)
+
+  Hosting:
+    - Vercel (frontend deployment)
+    - Firebase (database and authentication services)
+
+Architecture Pattern:
+---------------------
+
+The project follows the MVVM (Model-View-ViewModel) architecture pattern,
+which provides a clean separation between the user interface, business logic,
+and data management layers.
+
+  - Models: Define the data structures used across the application, such as
+    Employee, Attendance, Payroll, Payslip, and User.
+
+  - Views: React components that render the user interface. Each page in the
+    application has a dedicated view component that displays data and handles
+    user interactions.
+
+  - ViewModels: Custom React hooks that encapsulate business logic, manage
+    state, and provide data to the views. They act as intermediaries between
+    the views and the services.
+
+  - Services: Modules that handle communication with Firebase Firestore and
+    the Python backend API. They perform CRUD operations and data retrieval.
+
+Project Structure:
+------------------
+
+  Frontend:
+    /app          - Next.js pages and routing (auth, dashboard sections)
+    /components   - Reusable UI components (buttons, cards, tables, modals)
+    /models       - TypeScript interfaces and data models
+    /services     - Firebase and API service modules
+    /viewmodels   - Custom hooks for state management and logic
+    /views        - Page-level view components
+    /config       - Configuration files for Firebase and constants
+    /utils        - Utility and helper functions
+
+  Backend:
+    /app/models   - Pydantic models for salary and tax data validation
+    /app/routers  - FastAPI route definitions for API endpoints
+    /app/services - Business logic for salary and tax calculations
+    main.py       - FastAPI application entry point
+
+Implementation Highlights:
+--------------------------
+
+  - All forms include input validation to prevent invalid or incomplete data.
+  - Firebase Firestore is used for real-time data storage and retrieval.
+  - Firebase Authentication ensures that only authorized users can access
+    the system.
+  - The Python backend performs salary and tax calculations through REST API
+    endpoints, keeping complex computation logic server-side.
+  - The frontend uses responsive design to work on desktops and tablets.
+  - The MVVM pattern ensures that UI components remain simple and focused
+    on rendering, while business logic resides in viewmodels and services.
+
+
+================================================================================
+8. CODE
+================================================================================
+
+The source code of the Payroll Management System is organized into well-defined
+modules following the MVVM architecture pattern. The codebase includes the
+following components:
+
+  1. UI Screens and Views
+     - LandingPage: Public-facing landing page with hero section, features,
+       and call-to-action.
+     - LoginView: User authentication screen with email and password login.
+     - SignUpView: New user registration screen.
+     - DashboardView: Main dashboard displaying key statistics and summaries.
+     - EmployeeView: Employee management screen for adding, editing, viewing,
+       and deleting employee records.
+     - AttendanceView: Attendance tracking screen for marking and viewing
+       employee attendance.
+     - PayrollView: Payroll processing screen for calculating salaries and
+       managing payroll records.
+     - PayslipView: Payslip generation and viewing screen.
+
+  2. ViewModels (Custom Hooks)
+     - useAuthViewModel: Handles login, signup, and authentication state.
+     - useDashboardViewModel: Manages dashboard statistics and data.
+     - useEmployeeViewModel: Manages employee CRUD operations and state.
+     - useAttendanceViewModel: Manages attendance recording and retrieval.
+     - usePayrollViewModel: Handles payroll processing and history.
+     - useLandingViewModel: Manages landing page interactions.
+     - useThemeViewModel: Handles theme and UI preference state.
+
+  3. Services
+     - authService: Firebase Authentication integration for login and signup.
+     - employeeService: Firestore CRUD operations for employee records.
+     - attendanceService: Firestore operations for attendance data.
+     - payrollService: API and Firestore operations for payroll processing.
+     - payslipService: Payslip generation and retrieval operations.
+
+  4. Models
+     - Employee: Interface defining employee data structure.
+     - Attendance: Interface defining attendance record structure.
+     - Payroll: Interface defining payroll data structure.
+     - Payslip: Interface defining payslip data structure.
+     - User: Interface defining user authentication data.
+     - Dashboard: Interface defining dashboard statistics structure.
+
+  5. UI Components
+     - Reusable components including Button, Card, Input, Select, Modal,
+       Badge, DataTable, and StatsCard.
+     - Layout components including DashboardLayout, Header, and Sidebar.
+     - Landing page components including Navbar, HeroSection,
+       FeaturesSection, HowItWorksSection, CTASection, and Footer.
+
+  6. Backend API
+     - FastAPI application with salary and tax calculation endpoints.
+     - Pydantic models for request and response validation.
+     - SalaryCalculator and TaxCalculator service classes.
+
+  7. Configuration and Utilities
+     - Firebase configuration and initialization.
+     - Application constants and configuration values.
+     - Helper and utility functions for data formatting.
+
+Note: The complete source code is available in the project repository. The
+code follows TypeScript and Python coding standards with consistent naming
+conventions and modular organization.
+
+
+================================================================================
+9. TEST CASES
+================================================================================
+
+The following test cases were designed and executed to verify the correct
+functioning of the Payroll Management System.
+
+--------------------------------------------------------------------------
+TC ID  | Description              | Input                | Expected Output
+--------------------------------------------------------------------------
+
+TC-01  | Add New Employee         | Name: John Doe       | Employee record
+       |                          | Email: john@mail.com | created
+       |                          | Dept: Engineering    | successfully.
+       |                          | Designation: SDE     | Employee appears
+       |                          | Phone: 9876543210    | in employee list.
+       |                          |                      |
+       | Actual Result: Employee added successfully.     | Status: PASS
+--------------------------------------------------------------------------
+
+TC-02  | Add Employee with        | Name: (empty)        | Error message
+       | Empty Fields             | Email: (empty)       | displayed:
+       |                          | Dept: (empty)        | "Please fill all
+       |                          |                      | required fields."
+       |                          |                      |
+       | Actual Result: Validation error shown.          | Status: PASS
+--------------------------------------------------------------------------
+
+TC-03  | Mark Attendance          | Employee: John Doe   | Attendance
+       |                          | Date: 2026-03-15     | recorded
+       |                          | Status: Present      | successfully.
+       |                          |                      | Status shown as
+       |                          |                      | Present.
+       |                          |                      |
+       | Actual Result: Attendance marked correctly.     | Status: PASS
+--------------------------------------------------------------------------
+
+TC-04  | Calculate Salary         | Basic: 50000         | Gross: 72500
+       |                          | HRA: 12500           | PF: 6000
+       |                          | DA: 5000             | Tax: 5000
+       |                          | Allowances: 5000     | Net: 61500
+       |                          | PF: 6000             |
+       |                          | Tax: 5000            |
+       |                          |                      |
+       | Actual Result: Salary calculated correctly.     | Status: PASS
+--------------------------------------------------------------------------
+
+TC-05  | Calculate Salary with    | Basic: -5000         | Error message
+       | Invalid Input            | HRA: abc             | displayed:
+       |                          |                      | "Invalid salary
+       |                          |                      | input."
+       |                          |                      |
+       | Actual Result: Validation error shown.          | Status: PASS
+--------------------------------------------------------------------------
+
+TC-06  | Generate Payslip         | Employee: John Doe   | Payslip
+       |                          | Month: March         | generated with
+       |                          | Year: 2026           | all earnings and
+       |                          |                      | deductions listed.
+       |                          |                      | Net pay displayed.
+       |                          |                      |
+       | Actual Result: Payslip generated successfully.  | Status: PASS
+--------------------------------------------------------------------------
+
+TC-07  | Login with Valid         | Email: admin@mail.com| User logged in
+       | Credentials              | Password: Admin@123  | successfully.
+       |                          |                      | Dashboard
+       |                          |                      | displayed.
+       |                          |                      |
+       | Actual Result: Login successful.                | Status: PASS
+--------------------------------------------------------------------------
+
+TC-08  | Login with Invalid       | Email: admin@mail.com| Error message
+       | Credentials              | Password: wrong123   | displayed:
+       |                          |                      | "Invalid email
+       |                          |                      | or password."
+       |                          |                      |
+       | Actual Result: Login rejected with error.       | Status: PASS
+--------------------------------------------------------------------------
+
+TC-09  | Delete Employee          | Select employee:     | Employee removed
+       |                          | John Doe             | from the list.
+       |                          | Confirm deletion.    | Success message
+       |                          |                      | displayed.
+       |                          |                      |
+       | Actual Result: Employee deleted successfully.   | Status: PASS
+--------------------------------------------------------------------------
+
+TC-10  | Submit Payroll for       | Select month: March  | Payroll processed
+       | Processing               | Select year: 2026    | for all employees.
+       |                          | Click Process        | Payroll summary
+       |                          | Payroll.             | displayed with
+       |                          |                      | total amount.
+       |                          |                      |
+       | Actual Result: Payroll processed successfully.  | Status: PASS
+--------------------------------------------------------------------------
+
+Summary of Test Results:
+
+  Total Test Cases    : 10
+  Passed              : 10
+  Failed              : 0
+  Pass Percentage     : 100%
+
+
+================================================================================
+10. CONCLUSION
+================================================================================
+
+The Payroll Management System has been successfully designed, developed, and
+tested as part of this software engineering mini project. The system provides
+a comprehensive solution for automating the payroll process within an
+organization.
+
+Through this project, we have implemented key functionalities including
+employee management, attendance tracking, salary calculation with tax
+deductions, payslip generation, and payroll history management. The system
+replaces manual payroll processing with an efficient digital workflow that
+reduces human errors and saves significant time for HR and finance
+departments.
+
+The use of modern technologies such as Next.js, TypeScript, Tailwind CSS,
+Firebase, and Python FastAPI ensures that the system is robust, scalable,
+and maintainable. The MVVM architecture pattern provides a clean separation
+of concerns, making the codebase organized and easy to extend.
+
+The system has been validated through a series of test cases covering all
+major functionalities, including boundary conditions and error handling.
+All test cases passed successfully, confirming that the system meets the
+defined requirements.
+
+This project has provided practical experience in applying software
+engineering principles, including requirements analysis, system design,
+implementation, and testing. It demonstrates how a well-structured software
+development process leads to a reliable and functional end product.
+
+In conclusion, the Payroll Management System achieves its objective of
+improving payroll efficiency, ensuring accuracy in salary calculations,
+and providing a user-friendly platform for payroll administration.
+
+
+================================================================================
+11. FUTURE SCOPE
+================================================================================
+
+The Payroll Management System can be enhanced with the following features
+and improvements in future versions:
+
+  1. Mobile Application
+     Develop a mobile app version using React Native or Flutter to allow
+     administrators and employees to access the system on smartphones
+     and tablets.
+
+  2. Role-Based Access Control (RBAC)
+     Implement multiple user roles such as Super Admin, HR Manager, and
+     Employee with different levels of access and permissions. Employees
+     can view their own payslips and attendance records.
+
+  3. Automatic Tax Rule Updates
+     Integrate automatic tax slab updates based on government regulations
+     so that the system always applies the correct income tax rules
+     without manual configuration.
+
+  4. PDF and Excel Export
+     Enable exporting payslips, payroll reports, and employee records in
+     PDF and Excel formats for easy sharing, printing, and record-keeping.
+
+  5. Real-Time Notifications
+     Implement push notifications and email alerts to notify employees
+     about salary credits, payslip availability, and attendance reminders.
+
+  6. AI-Based Payroll Analytics
+     Use machine learning and data analytics to provide insights such as
+     payroll trends, cost predictions, and anomaly detection in salary
+     data.
+
+  7. Multi-Branch Support
+     Extend the system to support multiple branches or offices within an
+     organization, each with its own employee records and payroll
+     configurations.
+
+  8. Leave Management Integration
+     Add a leave management module that tracks leave balances, leave
+     applications, and approvals, and automatically adjusts attendance
+     and salary calculations.
+
+  9. Biometric and GPS Attendance
+     Integrate biometric device data or GPS-based location tracking for
+     automated and accurate attendance recording.
+
+  10. Compliance Reporting
+      Add features for generating statutory compliance reports such as
+      provident fund returns, tax deduction statements, and labour law
+      compliance documents.
+
+
+================================================================================
+12. REFERENCES
+================================================================================
+
+  1. Next.js Documentation
+     https://nextjs.org/docs
+     Official documentation for the Next.js React framework used for
+     building the frontend of the application.
+
+  2. Firebase Documentation
+     https://firebase.google.com/docs
+     Official documentation for Firebase services including Firestore
+     database and Authentication used in the project.
+
+  3. Python Documentation
+     https://docs.python.org/3/
+     Official documentation for the Python programming language used
+     for backend salary and tax calculation logic.
+
+  4. FastAPI Documentation
+     https://fastapi.tiangolo.com/
+     Official documentation for the FastAPI framework used to build
+     the backend REST API.
+
+  5. Tailwind CSS Documentation
+     https://tailwindcss.com/docs
+     Official documentation for the Tailwind CSS framework used for
+     styling the frontend user interface.
+
+  6. TypeScript Documentation
+     https://www.typescriptlang.org/docs/
+     Official documentation for TypeScript used for type-safe frontend
+     development.
+
+  7. Software Engineering - A Practitioner's Approach
+     Roger S. Pressman, Bruce R. Maxim
+     Reference textbook for software engineering concepts including
+     requirements analysis, system design, and testing.
+
+  8. Software Engineering Course Material
+     Lecture notes and course materials provided by the department
+     for the Software Engineering subject.
+
+  9. ChatGPT / AI Assistance
+     AI-based assistance used for code generation support, debugging,
+     and documentation guidance during the project development.
+
+
+================================================================================
+                           END OF DOCUMENT
+================================================================================
