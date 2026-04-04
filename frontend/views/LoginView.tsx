@@ -7,6 +7,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { HiCurrencyDollar, HiMail, HiLockClosed } from "react-icons/hi";
 import toast from "react-hot-toast";
 import Button from "@/components/ui/Button";
@@ -16,6 +17,7 @@ import { APP_NAME } from "@/config/constants";
 import Link from "next/link";
 
 export default function LoginView() {
+  const router = useRouter();
   const { login, isLoading, error, clearError } = useAuthViewModel();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +28,7 @@ export default function LoginView() {
     try {
       await login(email, password);
       toast.success("Welcome back!");
+      router.push("/");
     } catch {
       toast.error("Invalid credentials");
     }
