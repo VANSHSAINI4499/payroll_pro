@@ -1,0 +1,248 @@
+========================================================================
+                      MAINTENANCE PLAN DOCUMENT
+              Payroll Management System — "PayrollPro"
+========================================================================
+
+1. PURPOSE
+------------------------------------------------------------------------
+This document outlines the maintenance strategy, update schedules,
+backup procedures, monitoring protocols, and support plans to ensure
+long-term stability and reliability of the PayrollPro system.
+
+========================================================================
+
+2. MAINTENANCE TYPES
+------------------------------------------------------------------------
+
+2.1 Corrective Maintenance
+  - Bug fixes reported by users or detected in logs
+  - Hotfix deployment within 24 hours for critical issues
+  - Standard bug fixes in bi-weekly release cycles
+
+2.2 Adaptive Maintenance
+  - Dependency updates (npm, pip packages)
+  - Firebase SDK upgrades
+  - Next.js major version migrations
+  - Browser compatibility updates
+
+2.3 Perfective Maintenance
+  - UI/UX improvements based on user feedback
+  - Performance optimizations (query indexing, caching)
+  - New feature additions (future modules)
+
+2.4 Preventive Maintenance
+  - Code audits and refactoring
+  - Security vulnerability scanning
+  - Database cleanup and optimization
+
+========================================================================
+
+3. UPDATE SCHEDULE
+------------------------------------------------------------------------
+
+Frequency       | Activity
+----------------|--------------------------------------------------------
+Daily           | Monitor Firebase usage quotas
+                | Check backend server health endpoints
+                |
+Weekly          | Review error logs from console
+                | Check npm audit + pip audit for vulnerabilities
+                | Review Firestore read/write usage metrics
+                |
+Monthly         | Update minor package versions (patch/minor)
+                | Test backup restore procedure
+                | Review and optimize database indexes
+                | Clean up terminated employee data older than 1 year
+                |
+Quarterly       | Major dependency updates (Next.js, React, etc.)
+                | Security audit of CORS, auth rules
+                | Performance benchmarking
+                | Firebase Security Rules review
+                |
+Annually        | Full system audit
+                | Tax slab updates (per Indian Finance Budget)
+                | Review and update SRS/documentation
+                | Disaster recovery drill
+
+========================================================================
+
+4. BACKUP STRATEGY
+------------------------------------------------------------------------
+
+4.1 Firebase Firestore
+  - Automatic daily exports to Cloud Storage bucket
+  - Retain daily backups for 30 days
+  - Weekly backups retained for 6 months
+  - Monthly backups retained for 2 years
+  - Use: gcloud firestore export gs://backup-bucket/
+
+4.2 Application Code
+  - Git repository hosted on GitHub/GitLab
+  - Branching strategy: main (production), develop, feature/*
+  - Tag all production releases: v1.0.0, v1.1.0, etc.
+  - Protected main branch — require PR reviews
+
+4.3 Environment Configuration
+  - .env files stored in secure vault (not in Git)
+  - Firebase service account keys rotated quarterly
+  - Document all environment variable changes
+
+4.4 Backup Verification
+  - Monthly restore test to staging environment
+  - Verify data integrity after restore
+  - Document results of each verification
+
+========================================================================
+
+5. MONITORING
+------------------------------------------------------------------------
+
+5.1 Frontend Monitoring
+  - Browser console error tracking
+  - Page load performance (Core Web Vitals)
+  - Firebase Authentication success/failure rates
+
+5.2 Backend Monitoring
+  - FastAPI health check endpoint: GET /health
+  - API response time tracking
+  - Error rate monitoring on /calculate-salary, /calculate-tax
+  - Uvicorn process health (systemd or PM2)
+
+5.3 Firebase Monitoring
+  - Firestore read/write/delete operation counts
+  - Authentication active user sessions
+  - Storage usage and bandwidth
+  - Security Rules rejection logs
+
+5.4 Alerting Thresholds
+  Metric                     | Warning      | Critical
+  ---------------------------|--------------|------------
+  API response time          | > 2 seconds  | > 5 seconds
+  Error rate                 | > 1%         | > 5%
+  Firebase daily reads       | > 80% quota  | > 95% quota
+  Backend uptime             | < 99.5%      | < 99%
+  Failed login attempts/hr   | > 10         | > 50
+
+========================================================================
+
+6. SECURITY MAINTENANCE
+------------------------------------------------------------------------
+
+6.1 Regular Activities
+  - Weekly: npm audit, pip check for known CVEs
+  - Monthly: Review Firebase Security Rules
+  - Monthly: Rotate API keys if exposed
+  - Quarterly: Full OWASP Top 10 assessment
+  - Quarterly: Review CORS allowed origins
+
+6.2 Incident Response
+  Step 1: Identify and classify the incident
+  Step 2: Contain (disable compromised accounts, block IPs)
+  Step 3: Eradicate (patch vulnerability, update rules)
+  Step 4: Recover (restore from backup if needed)
+  Step 5: Document lessons learned
+
+6.3 Access Control
+  - Admin accounts reviewed monthly
+  - Remove inactive admin accounts after 90 days
+  - Enforce strong password policy via Firebase
+  - Log all admin actions for audit trail
+
+========================================================================
+
+7. ENVIRONMENT MANAGEMENT
+------------------------------------------------------------------------
+
+7.1 Development Environment
+  - Local machine with Node.js 18+ and Python 3.10+
+  - Firebase Emulator Suite for local Firestore/Auth
+  - Hot reload enabled (Next.js + Uvicorn --reload)
+
+7.2 Staging Environment
+  - Mirror of production with test data
+  - Deploy all changes to staging before production
+  - Run full test suite against staging
+
+7.3 Production Environment
+  - Frontend: Vercel / Firebase Hosting
+  - Backend: Railway / Render / VPS with Uvicorn
+  - Firebase: Production project with billing enabled
+  - HTTPS enforced on all endpoints
+
+========================================================================
+
+8. DEPENDENCY MANAGEMENT
+------------------------------------------------------------------------
+
+8.1 Frontend Dependencies (npm)
+  Package            | Current   | Update Strategy
+  -------------------|-----------|----------------------------
+  next               | 14.0.4   | Major: quarterly, test SSR
+  react              | 18.2.0   | Major: with Next.js upgrades
+  three              | 0.160.0  | Minor: monthly, test 3D scene
+  @react-three/fiber | 8.15.12  | Align with three.js version
+  zustand            | 4.4.7    | Minor: monthly
+  firebase           | 10.7.0   | Major: quarterly
+  tailwindcss        | 3.3.6    | Minor: monthly
+
+8.2 Backend Dependencies (pip)
+  Package            | Current   | Update Strategy
+  -------------------|-----------|----------------------------
+  fastapi            | 0.109.0  | Minor: monthly
+  uvicorn            | 0.25.0   | Minor: monthly
+  pydantic           | 2.5.0    | Minor: monthly
+
+========================================================================
+
+9. TAX COMPLIANCE UPDATES
+------------------------------------------------------------------------
+
+The Indian tax slabs and salary rules must be updated annually:
+
+  - Monitor Union Budget announcements (February each year)
+  - Update tax slabs in:
+      backend/app/services/tax_calculator.py
+      frontend/services/payrollService.ts (local fallback)
+  - Update salary constants if PF/ESI rates change:
+      frontend/config/constants.ts → SALARY_CONSTANTS
+  - Test all payroll calculations after changes
+  - Deploy updates before April 1 (new financial year)
+
+========================================================================
+
+10. SUPPORT & ESCALATION
+------------------------------------------------------------------------
+
+Level 1 — Self-Service
+  - User documentation / README
+  - FAQ section
+  - In-app help tooltips
+
+Level 2 — Developer Support
+  - Bug reports via GitHub Issues
+  - Response time: 48 hours
+  - Fix timeline: 1-2 weeks
+
+Level 3 — Critical Escalation
+  - System down, data loss, security breach
+  - Response time: 4 hours
+  - Communication: Direct contact
+
+========================================================================
+
+11. DECOMMISSIONING PLAN
+------------------------------------------------------------------------
+
+If the system is retired:
+
+  1. Export all data from Firestore (JSON/CSV)
+  2. Export all payslip PDFs
+  3. Archive Git repository
+  4. Notify all users 30 days in advance
+  5. Disable Firebase project billing
+  6. Retain backups for 5 years (legal compliance)
+  7. Document final state and archive documentation
+
+========================================================================
+END OF MAINTENANCE PLAN DOCUMENT
+========================================================================

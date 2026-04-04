@@ -1,0 +1,135 @@
+========================================================================
+                  ENTITY-RELATIONSHIP DIAGRAM (TEXT)
+              Payroll Management System — "PayrollPro"
+========================================================================
+
+ENTITIES & RELATIONSHIPS
+------------------------------------------------------------------------
+
+1. USER (Admin)
+   ┌────────────────────────────┐
+   │ users                      │
+   ├────────────────────────────┤
+   │ PK  uid          : string  │
+   │     email        : string  │
+   │     displayName  : string  │
+   │     role         : enum    │  → {admin, manager, viewer}
+   │     photoURL     : string? │
+   │     createdAt    : date    │
+   │     lastLoginAt  : date    │
+   └────────────────────────────┘
+
+2. EMPLOYEE
+   ┌────────────────────────────────┐
+   │ employees                      │
+   ├────────────────────────────────┤
+   │ PK  id             : string   │ (Firestore auto-ID)
+   │     employeeId     : string   │ (EMP-001)
+   │     firstName      : string   │
+   │     lastName       : string   │
+   │     email          : string   │
+   │     phone          : string   │
+   │     department     : enum     │
+   │     designation    : string   │
+   │     dateOfJoining  : date     │
+   │     dateOfBirth    : date     │
+   │     gender         : enum     │
+   │     address        : object   │  → {street, city, state, zip, country}
+   │     bankDetails    : object   │  → {bankName, accountNumber, ifsc, holder}
+   │     basicSalary    : number   │
+   │     status         : enum     │  → {active, inactive, terminated}
+   │     createdAt      : date     │
+   │     updatedAt      : date     │
+   └────────────────────────────────┘
+
+3. ATTENDANCE
+   ┌─────────────────────────────┐
+   │ attendance                   │
+   ├─────────────────────────────┤
+   │ PK  id           : string   │
+   │ FK  employeeId   : string   │ → employees.id
+   │     date         : date     │
+   │     checkIn      : string   │ (HH:mm)
+   │     checkOut     : string   │ (HH:mm)
+   │     status       : enum     │ → {present, absent, half-day, leave, holiday}
+   │     hoursWorked  : number   │
+   │     overtime     : number   │
+   │     notes        : string?  │
+   │     createdAt    : date     │
+   └─────────────────────────────┘
+
+4. PAYROLL
+   ┌──────────────────────────────┐
+   │ payroll                       │
+   ├──────────────────────────────┤
+   │ PK  id              : string │
+   │ FK  employeeId      : string │ → employees.id
+   │     employeeName    : string │
+   │     month           : number │
+   │     year            : number │
+   │     basicSalary     : number │
+   │     allowances      : object │ → {hra, da, ta, medical, special, overtime}
+   │     deductions      : object │ → {pf, esi, tax, profTax, loan, other}
+   │     grossSalary     : number │
+   │     totalDeductions : number │
+   │     netSalary       : number │
+   │     status          : enum   │ → {draft, processed, approved, paid, cancelled}
+   │     processedAt     : date   │
+   │     paidAt          : date?  │
+   │     createdAt       : date   │
+   └──────────────────────────────┘
+
+5. PAYSLIP
+   ┌───────────────────────────────────┐
+   │ payslips                           │
+   ├───────────────────────────────────┤
+   │ PK  id                   : string │
+   │ FK  payrollId            : string │ → payroll.id
+   │ FK  employeeId           : string │ → employees.id
+   │     employeeName         : string │
+   │     employeeDesignation  : string │
+   │     department           : string │
+   │     month                : number │
+   │     year                 : number │
+   │     earnings             : array  │ → [{label, amount}]
+   │     deductions           : array  │ → [{label, amount}]
+   │     grossEarnings        : number │
+   │     totalDeductions      : number │
+   │     netPay               : number │
+   │     generatedAt          : date   │
+   │     downloadURL          : string?│
+   └───────────────────────────────────┘
+
+
+RELATIONSHIPS
+------------------------------------------------------------------------
+
+  EMPLOYEE  ──< 1:N >──  ATTENDANCE
+     │                    (One employee has many attendance records)
+     │
+     ├───< 1:N >──  PAYROLL
+     │               (One employee has many payroll records)
+     │
+     └───< 1:N >──  PAYSLIP
+                     (One employee has many payslips)
+
+  PAYROLL  ──< 1:1 >──  PAYSLIP
+                         (One payroll generates one payslip)
+
+
+ER DIAGRAM (ASCII)
+------------------------------------------------------------------------
+
+  ┌──────────┐         ┌────────────┐         ┌──────────┐
+  │   USER   │         │  EMPLOYEE  │────────>│ATTENDANCE│
+  │ (admin)  │         │            │   1:N   │          │
+  └──────────┘         │            │         └──────────┘
+                       │            │
+                       │            │────────>┌──────────┐
+                       │            │   1:N   │ PAYROLL  │───────>┌──────────┐
+                       └────────────┘         │          │  1:1   │ PAYSLIP  │
+                                              └──────────┘        └──────────┘
+
+========================================================================
+END OF ER DIAGRAM DOCUMENT
+========================================================================

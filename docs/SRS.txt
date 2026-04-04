@@ -1,0 +1,182 @@
+========================================================================
+               SOFTWARE REQUIREMENTS SPECIFICATION (SRS)
+              Payroll Management System — "PayrollPro"
+                          Version 1.0
+========================================================================
+
+1. INTRODUCTION
+------------------------------------------------------------------------
+
+1.1 Purpose
+    This document specifies the software requirements for the PayrollPro
+    Payroll Management System, a web-based application designed to
+    manage employee salary processing, attendance tracking, tax
+    deductions, and payslip generation.
+
+1.2 Scope
+    The system covers:
+    - Employee lifecycle management
+    - Attendance tracking and reporting
+    - Automated salary calculation with allowances and deductions
+    - Tax computation (Indian old & new regime)
+    - Digital payslip generation
+    - Admin dashboard with analytics and 3D visualizations
+
+1.3 Definitions & Acronyms
+    MVVM    — Model-View-ViewModel architecture pattern
+    PF      — Provident Fund
+    ESI     — Employee State Insurance
+    HRA     — House Rent Allowance
+    DA      — Dearness Allowance
+    TDS     — Tax Deducted at Source
+
+1.4 Technology Stack
+    Frontend : Next.js 14 (App Router), TypeScript, Tailwind CSS,
+               React Three Fiber (Three.js), Zustand
+    Backend  : Python FastAPI (optional salary/tax microservice)
+    Database : Firebase Firestore (NoSQL)
+    Auth     : Firebase Authentication
+
+========================================================================
+
+2. OVERALL DESCRIPTION
+------------------------------------------------------------------------
+
+2.1 Product Perspective
+    PayrollPro is a standalone web application accessible via modern
+    browsers. It uses Firebase for backend-as-a-service (BaaS) and
+    optionally connects to a Python FastAPI microservice for salary
+    and tax calculations.
+
+2.2 User Classes
+    - Admin       : Full access (CRUD all modules, payroll processing)
+    - Manager     : Read access + approve payrolls
+    - Viewer      : Read-only access to dashboards
+
+2.3 Operating Environment
+    - Browsers    : Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+    - Platforms   : Desktop, Tablet, Mobile (responsive)
+    - Hosting     : Vercel (frontend), Firebase (database), Any VPS (API)
+
+2.4 Constraints
+    - Firebase free tier limits (50K reads/day, 20K writes/day)
+    - Client-side rendering for 3D components
+    - Requires JavaScript enabled
+
+========================================================================
+
+3. FUNCTIONAL REQUIREMENTS
+------------------------------------------------------------------------
+
+3.1 Authentication Module (FR-AUTH)
+    FR-AUTH-01 : Admin shall log in via email/password
+    FR-AUTH-02 : System shall persist session using Firebase Auth
+    FR-AUTH-03 : System shall redirect unauthenticated users to login
+    FR-AUTH-04 : Admin shall be able to logout
+
+3.2 Employee Management Module (FR-EMP)
+    FR-EMP-01  : Admin shall add new employees with full details
+    FR-EMP-02  : Admin shall view all employees in a searchable table
+    FR-EMP-03  : Admin shall edit employee information
+    FR-EMP-04  : Admin shall soft-delete (terminate) employees
+    FR-EMP-05  : System shall auto-generate employee IDs (EMP-001)
+    FR-EMP-06  : Admin shall filter by department, status
+    FR-EMP-07  : Employee records include: personal info, bank details,
+                 salary, department, designation
+
+3.3 Attendance Module (FR-ATT)
+    FR-ATT-01  : Admin shall mark daily attendance per employee
+    FR-ATT-02  : System shall track check-in/check-out times
+    FR-ATT-03  : System shall auto-calculate hours worked & overtime
+    FR-ATT-04  : Admin shall filter attendance by month/year
+    FR-ATT-05  : Status types: Present, Absent, Half-day, Leave, Holiday
+
+3.4 Payroll Module (FR-PAY)
+    FR-PAY-01  : Admin shall process payroll for selected employees
+    FR-PAY-02  : System shall calculate: basic, allowances, deductions
+    FR-PAY-03  : Allowances: HRA (40%), DA (12%), TA, Medical, Special
+    FR-PAY-04  : Deductions: PF (12%), ESI, Tax, Professional Tax
+    FR-PAY-05  : Admin shall approve processed payrolls
+    FR-PAY-06  : Admin shall mark payrolls as paid
+    FR-PAY-07  : System connects to FastAPI for calculation (optional)
+
+3.5 Payslip Module (FR-SLIP)
+    FR-SLIP-01 : System shall generate payslips from payroll records
+    FR-SLIP-02 : Payslips show: earnings, deductions, net pay
+    FR-SLIP-03 : Admin shall view all generated payslips
+    FR-SLIP-04 : Future: PDF download support
+
+3.6 Dashboard Module (FR-DASH)
+    FR-DASH-01 : Display total/active employees count
+    FR-DASH-02 : Display monthly payroll totals
+    FR-DASH-03 : Display attendance rate
+    FR-DASH-04 : Show department distribution chart
+    FR-DASH-05 : Show monthly payroll trend
+    FR-DASH-06 : Render 3D analytics using Three.js
+
+========================================================================
+
+4. NON-FUNCTIONAL REQUIREMENTS
+------------------------------------------------------------------------
+
+4.1 Performance
+    NFR-01 : Pages shall load within 3 seconds on broadband
+    NFR-02 : 3D scene shall render at 30+ FPS on mid-range hardware
+
+4.2 Security
+    NFR-03 : Firebase security rules shall restrict data access
+    NFR-04 : Passwords handled entirely by Firebase Auth (never stored)
+    NFR-05 : Environment variables for all sensitive config
+
+4.3 Usability
+    NFR-06 : Responsive design (mobile, tablet, desktop)
+    NFR-07 : Dark mode support
+    NFR-08 : Consistent design language (Tailwind CSS)
+
+4.4 Maintainability
+    NFR-09 : MVVM architecture for separation of concerns
+    NFR-10 : TypeScript strict mode for type safety
+    NFR-11 : Modular service layer for easy API swapping
+
+4.5 Scalability
+    NFR-12 : Firestore scales automatically with usage
+    NFR-13 : FastAPI stateless design supports horizontal scaling
+
+========================================================================
+
+5. DATA REQUIREMENTS
+------------------------------------------------------------------------
+
+5.1 Firestore Collections
+    - users       : Admin user profiles
+    - employees   : Employee records
+    - attendance  : Daily attendance logs
+    - payroll     : Monthly salary processing records
+    - payslips    : Generated payslip documents
+
+5.2 Data Validation
+    - Email format validation
+    - Required field enforcement
+    - Salary must be positive numbers
+    - Date fields in ISO 8601 format
+
+========================================================================
+
+6. INTERFACE REQUIREMENTS
+------------------------------------------------------------------------
+
+6.1 User Interfaces
+    - Login Page
+    - Dashboard (with 3D scene)
+    - Employee Management Panel
+    - Attendance Tracking Panel
+    - Payroll Processing Panel
+    - Payslip Viewer
+
+6.2 API Interfaces
+    - POST /calculate-salary : Computes salary breakdown
+    - POST /calculate-tax    : Computes tax breakdown
+
+========================================================================
+END OF SRS DOCUMENT
+========================================================================

@@ -1,0 +1,287 @@
+========================================================================
+                         TEST CASES DOCUMENT
+              Payroll Management System — "PayrollPro"
+========================================================================
+
+1. AUTHENTICATION MODULE
+------------------------------------------------------------------------
+
+TC-AUTH-01: Valid Login
+  Precondition : Admin account exists in Firebase
+  Input        : Valid email + valid password
+  Steps        : 1. Navigate to login page
+                 2. Enter credentials
+                 3. Click "Sign In"
+  Expected     : User redirected to Dashboard
+  Priority     : HIGH
+
+TC-AUTH-02: Invalid Password
+  Precondition : Admin account exists
+  Input        : Valid email + wrong password
+  Steps        : 1. Enter wrong password
+                 2. Click "Sign In"
+  Expected     : Error toast "Invalid credentials" displayed
+  Priority     : HIGH
+
+TC-AUTH-03: Empty Fields
+  Precondition : None
+  Input        : Empty email and/or password
+  Steps        : 1. Leave fields empty
+                 2. Click "Sign In"
+  Expected     : HTML5 validation prevents submission
+  Priority     : MEDIUM
+
+TC-AUTH-04: Logout
+  Precondition : User is logged in
+  Input        : Click logout button in sidebar
+  Expected     : User redirected to login page, session cleared
+  Priority     : HIGH
+
+TC-AUTH-05: Session Persistence
+  Precondition : User logged in, page refreshed
+  Expected     : User remains authenticated (Firebase token)
+  Priority     : HIGH
+
+========================================================================
+
+2. EMPLOYEE MANAGEMENT MODULE
+------------------------------------------------------------------------
+
+TC-EMP-01: Add Employee — Valid Data
+  Precondition : Admin logged in
+  Input        : All required fields filled correctly
+  Steps        : 1. Click "Add Employee"
+                 2. Fill all fields
+                 3. Click "Add Employee" button
+  Expected     : Employee added, toast "Employee added", table updated
+  Priority     : HIGH
+
+TC-EMP-02: Add Employee — Missing Required Fields
+  Precondition : Admin logged in
+  Input        : Missing first name
+  Expected     : Form validation prevents submit
+  Priority     : MEDIUM
+
+TC-EMP-03: Employee ID Auto-generation
+  Precondition : 5 employees exist
+  Steps        : Add a new employee
+  Expected     : New employee gets ID "EMP-006"
+  Priority     : MEDIUM
+
+TC-EMP-04: Edit Employee
+  Precondition : Employee exists
+  Steps        : 1. Click edit icon on employee row
+                 2. Change designation
+                 3. Submit
+  Expected     : Employee updated, toast "Employee updated"
+  Priority     : HIGH
+
+TC-EMP-05: Terminate Employee
+  Precondition : Active employee exists
+  Steps        : 1. Click delete icon
+                 2. Confirm dialog
+  Expected     : Employee status changed to "terminated"
+  Priority     : HIGH
+
+TC-EMP-06: Search by Name
+  Precondition : Multiple employees exist
+  Input        : "John" in search box
+  Expected     : Only employees matching "John" are shown
+  Priority     : MEDIUM
+
+TC-EMP-07: Filter by Department
+  Precondition : Employees in multiple departments
+  Input        : Select "Engineering"
+  Expected     : Only engineering employees shown
+  Priority     : MEDIUM
+
+TC-EMP-08: Filter by Status
+  Precondition : Both active and terminated employees
+  Input        : Select "Active"
+  Expected     : Only active employees shown
+  Priority     : MEDIUM
+
+TC-EMP-09: Edit Employee Email — Valid Email
+  Input        : "john.doe@company.com"
+  Expected     : Accepted and saved
+  Priority     : LOW
+
+TC-EMP-10: Basic Salary Validation
+  Input        : Negative salary value
+  Expected     : Type="number" prevents negative input
+  Priority     : MEDIUM
+
+========================================================================
+
+3. ATTENDANCE MODULE
+------------------------------------------------------------------------
+
+TC-ATT-01: Mark Attendance — Present
+  Precondition : Active employees exist
+  Steps        : 1. Click "Mark Attendance"
+                 2. Select employee, date, check-in/out
+                 3. Status = "Present"
+                 4. Submit
+  Expected     : Record created, hours calculated, table updated
+  Priority     : HIGH
+
+TC-ATT-02: Hours Worked Calculation
+  Input        : Check-in = 09:00, Check-out = 18:00
+  Expected     : Hours Worked = 9, Overtime = 1
+  Priority     : HIGH
+
+TC-ATT-03: Overtime Calculation
+  Input        : Check-in = 08:00, Check-out = 20:00
+  Expected     : Hours = 12, Overtime = 4
+  Priority     : HIGH
+
+TC-ATT-04: Mark Half-Day
+  Input        : Check-in = 09:00, Check-out = 13:00, Status = "half-day"
+  Expected     : Record saved with status "half-day", 4 hours
+  Priority     : MEDIUM
+
+TC-ATT-05: Filter by Month
+  Precondition : Records in January and February
+  Input        : Select "February"
+  Expected     : Only February records shown
+  Priority     : MEDIUM
+
+TC-ATT-06: Mark Absence
+  Input        : Status = "absent", no check-in/out
+  Expected     : Record saved with 0 hours
+  Priority     : MEDIUM
+
+========================================================================
+
+4. PAYROLL MODULE
+------------------------------------------------------------------------
+
+TC-PAY-01: Process Payroll — Full Month
+  Precondition : Active employee with salary ₹50,000
+  Steps        : 1. Click "Process Payroll"
+                 2. Select employee
+                 3. Select month/year
+                 4. Submit
+  Expected     : Payroll calculated correctly:
+                 HRA = ₹20,000, DA = ₹6,000, PF = ₹6,000
+                 Gross ≈ ₹79,850, Net displayed
+  Priority     : HIGH
+
+TC-PAY-02: Approve Payroll
+  Precondition : Payroll with status "processed"
+  Steps        : Click approve button
+  Expected     : Status changes to "approved"
+  Priority     : HIGH
+
+TC-PAY-03: Mark as Paid
+  Precondition : Payroll with status "approved"
+  Steps        : Click pay button
+  Expected     : Status changes to "paid", paidAt timestamp set
+  Priority     : HIGH
+
+TC-PAY-04: Salary Calculation — Pro-rated
+  Input        : Basic ₹50,000, 22 working days, 15 days worked
+  Expected     : Pro-rated basic ≈ ₹34,091 with proportional allowances
+  Priority     : HIGH
+
+TC-PAY-05: ESI Threshold Check
+  Input        : Gross salary ₹22,000
+  Expected     : ESI = ₹0 (threshold is ₹21,000, gross exceeds)
+  Priority     : MEDIUM
+
+TC-PAY-06: FastAPI Fallback
+  Precondition : FastAPI server is DOWN
+  Steps        : Process payroll
+  Expected     : Calculation uses local fallback, result still correct
+  Priority     : HIGH
+
+========================================================================
+
+5. TAX CALCULATION (FastAPI)
+------------------------------------------------------------------------
+
+TC-TAX-01: New Regime — Below ₹3L
+  Input        : Annual Income = ₹250,000
+  Expected     : Tax = ₹0
+  Priority     : HIGH
+
+TC-TAX-02: New Regime — ₹10L Income
+  Input        : Annual Income = ₹1,000,000
+  Expected     : Tax = (15000 + 30000 + 15000) * 1.04 = ₹62,400
+  Priority     : HIGH
+
+TC-TAX-03: Old Regime — With 80C
+  Input        : Annual = ₹10L, 80C = ₹1.5L
+  Expected     : Taxable = 10L - 50K - 1.5L = ₹8L
+                 Tax calculated on ₹8L under old slabs
+  Priority     : HIGH
+
+TC-TAX-04: API Response Format
+  Input        : Valid tax request
+  Expected     : Response includes: annualTax, monthlyTax,
+                 effectiveRate, breakdown[]
+  Priority     : MEDIUM
+
+========================================================================
+
+6. DASHBOARD MODULE
+------------------------------------------------------------------------
+
+TC-DASH-01: Stats Display
+  Precondition : 10 employees, 5 payrolls processed
+  Expected     : Cards show correct counts and totals
+  Priority     : HIGH
+
+TC-DASH-02: 3D Scene Renders
+  Precondition : Dashboard loads with data
+  Expected     : 3D bars render, orbit controls work, auto-rotate active
+  Priority     : MEDIUM
+
+TC-DASH-03: Monthly Trend
+  Precondition : Payrolls across 3 months
+  Expected     : Bar chart shows correct monthly totals
+  Priority     : MEDIUM
+
+TC-DASH-04: Department Distribution
+  Precondition : Employees in 4 departments
+  Expected     : All 4 departments listed with correct counts
+  Priority     : MEDIUM
+
+TC-DASH-05: Empty State
+  Precondition : No employees or payrolls
+  Expected     : "No data" messages shown, 3D scene handles gracefully
+  Priority     : LOW
+
+========================================================================
+
+7. UI / UX
+------------------------------------------------------------------------
+
+TC-UI-01: Dark Mode Toggle
+  Steps        : Click moon/sun icon in header
+  Expected     : Theme switches, preference saved to localStorage
+  Priority     : MEDIUM
+
+TC-UI-02: Responsive — Mobile
+  Steps        : View on 375px viewport
+  Expected     : Sidebar collapses, hamburger menu appears
+  Priority     : MEDIUM
+
+TC-UI-03: Sidebar Navigation
+  Steps        : Click each nav item
+  Expected     : Correct page loads, active item highlighted
+  Priority     : HIGH
+
+TC-UI-04: Modal Close — Escape Key
+  Steps        : Open modal, press Escape
+  Expected     : Modal closes
+  Priority     : LOW
+
+TC-UI-05: Loading States
+  Steps        : Navigate to any data page
+  Expected     : Skeleton/pulse animation during load
+  Priority     : LOW
+
+========================================================================
+END OF TEST CASES DOCUMENT
+========================================================================
