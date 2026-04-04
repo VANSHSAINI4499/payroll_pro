@@ -70,19 +70,41 @@ export const useAuthViewModel = create<AuthViewModel>((set) => ({
   initAuthListener: () => {
     set({ isLoading: true });
     const unsubscribe = authService.onAuthChange(async (firebaseUser) => {
-      if (firebaseUser) {
-        const profile = await authService.getUserProfile(firebaseUser.uid);
-        set({
-          user: profile,
-          isAuthenticated: true,
-          isLoading: false,
-        });
-      } else {
-        set({
-          user: null,
-          isAuthenticated: false,
-          isLoading: false,
-        });
+      try {
+        if (firebaseUser) {
+          const profile = await authService.getUserProfile(firebaseUser.uid);
+          if (profile) {
+            set({
+              user: profile,
+              isAuthenticated: true,
+              isLoading: false,
+            });
+          } else {
+            // Firestore doc missing but Firebase Auth is valid — use basic profile
+            set({
+              user: {
+                uid: firebaseUser.uid,
+                email: firebaseUser.email || "",
+                displayName: firebaseUser.displayName || "Admin",
+                role: "admin",
+                photoURL: firebaseUser.photoURL || null,
+                createdAt: new Date(),
+                lastLoginAt: new Date(),
+              },
+              isAuthenticated: true,
+              isLoading: false,
+            });
+          }
+        } else {
+          set({
+            user: null,
+            isAuthenticated: false,
+            isLoading: false,
+          });
+        }
+      } catch {
+        // On any error, still mark loading as done
+        set({ isLoading: false });
       }
     });
     return unsubscribe;

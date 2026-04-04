@@ -23,29 +23,26 @@ export async function signIn(email: string, password: string): Promise<User> {
     doc(db, COLLECTIONS.USERS, credential.user.uid)
   );
 
-  if (!userDoc.exists()) {
-    // Create user document on first login
-    const newUser: User = {
-      uid: credential.user.uid,
-      email: credential.user.email || email,
-      displayName: credential.user.displayName || "Admin",
-      role: "admin",
-      photoURL: credential.user.photoURL || null,
-      createdAt: new Date(),
-      lastLoginAt: new Date(),
-    };
-    await setDoc(doc(db, COLLECTIONS.USERS, credential.user.uid), newUser);
-    return newUser;
-  }
+  const user: User = userDoc.exists()
+    ? (userDoc.data() as User)
+    : {
+        uid: credential.user.uid,
+        email: credential.user.email || email,
+        displayName: credential.user.displayName || "Admin",
+        role: "admin",
+        photoURL: credential.user.photoURL || null,
+        createdAt: new Date(),
+        lastLoginAt: new Date(),
+      };
 
-  // Update last login
-  await setDoc(
+  // Update/create user doc in background — don't block login
+  setDoc(
     doc(db, COLLECTIONS.USERS, credential.user.uid),
-    { lastLoginAt: new Date() },
+    { ...user, lastLoginAt: new Date() },
     { merge: true }
-  );
+  ).catch(() => {});
 
-  return userDoc.data() as User;
+  return user;
 }
 
 // Sign out
@@ -83,7 +80,30 @@ export function onAuthChange(
 }
 
 // Get current user profile from Firestore
+// Falls back to basic profile from Firebase Auth if Firestore doc doesn't exist yet
 export async function getUserProfile(uid: string): Promise<User | null> {
-  const userDoc = await getDoc(doc(db, COLLECTIONS.USERS, uid));
-  return userDoc.exists() ? (userDoc.data() as User) : null;
+  try {
+    const userDoc = await getDoc(doc(db, COLLECTIONS.USERS, uid));
+    if (userDoc.exists()) {
+      return userDoc.data() as User;
+    }
+  } catch {
+    // Firestore might be temporarily unavailable — fall through to fallback
+  }
+
+  // Fallback: build profile from Firebase Auth current user
+  const currentUser = auth.currentUser;
+  if (currentUser && currentUser.uid === uid) {
+    return {
+      uid: currentUser.uid,
+      email: currentUser.email || "",
+      displayName: currentUser.displayName || "Admin",
+      role: "admin",
+      photoURL: currentUser.photoURL || null,
+      createdAt: new Date(),
+      lastLoginAt: new Date(),
+    };
+  }
+
+  return null;
 }
