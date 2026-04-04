@@ -18,9 +18,11 @@ export default function Card({ children, className = "", onClick }: CardProps) {
     <div
       onClick={onClick}
       className={`
-        bg-white dark:bg-gray-800 rounded-xl border border-gray-200
-        dark:border-gray-700 shadow-sm p-6
-        ${onClick ? "cursor-pointer hover:shadow-md transition-shadow" : ""}
+        bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-2xl
+        border border-gray-200/60 dark:border-white/10
+        shadow-lg shadow-gray-200/40 dark:shadow-black/20
+        p-6 transition-all duration-300
+        ${onClick ? "cursor-pointer hover:shadow-xl hover:scale-[1.01] hover:border-primary-300 dark:hover:border-primary-500/30" : ""}
         ${className}
       `}
     >

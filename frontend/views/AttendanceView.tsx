@@ -220,7 +220,7 @@ export default function AttendanceView() {
             placeholder="Optional notes..."
           />
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-white/10">
             <Button variant="secondary" onClick={() => setShowModal(false)} type="button">
               Cancel
             </Button>

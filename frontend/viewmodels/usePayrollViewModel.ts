@@ -7,6 +7,8 @@
 import { create } from "zustand";
 import { Payroll, SalaryCalculationRequest } from "@/models/Payroll";
 import * as payrollService from "@/services/payrollService";
+import * as payslipService from "@/services/payslipService";
+import * as employeeService from "@/services/employeeService";
 
 interface PayrollState {
   payrolls: Payroll[];
@@ -115,6 +117,22 @@ export const usePayrollViewModel = create<PayrollViewModel>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       await payrollService.updatePayrollStatus(id, status);
+
+      // Auto-generate payslip when payroll is marked as paid
+      if (status === "paid") {
+        const payroll = get().payrolls.find((p) => p.id === id);
+        if (payroll) {
+          const employee = await employeeService.getEmployeeById(payroll.employeeId);
+          const designation = employee?.designation || "";
+          const department = employee?.department || "";
+          await payslipService.generatePayslip(
+            { ...payroll, status: "paid" },
+            designation,
+            department
+          );
+        }
+      }
+
       await get().fetchPayrolls();
       set({ isLoading: false });
     } catch (error: unknown) {

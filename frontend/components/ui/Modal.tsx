@@ -45,28 +45,28 @@ export default function Modal({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-md"
         onClick={onClose}
       />
       {/* Modal Content */}
       <div
         className={`
           relative w-full ${sizeClasses[size]} mx-4
-          bg-white dark:bg-gray-800 rounded-xl shadow-2xl
-          border border-gray-200 dark:border-gray-700
+          bg-white dark:bg-[#12122a]/95 backdrop-blur-2xl rounded-2xl shadow-2xl shadow-black/40
+          border border-gray-200 dark:border-white/10
           max-h-[90vh] overflow-y-auto
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-white/10">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
           >
-            <HiX className="h-5 w-5 text-gray-500" />
+            <HiX className="h-5 w-5 text-gray-400" />
           </button>
         </div>
         {/* Body */}

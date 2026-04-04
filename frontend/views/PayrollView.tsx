@@ -151,19 +151,19 @@ export default function PayrollView() {
           {p.status === "processed" && (
             <button
               onClick={() => handleApprove(p)}
-              className="p-1 rounded hover:bg-green-50 dark:hover:bg-green-900/20"
+              className="p-1.5 rounded-lg hover:bg-green-500/10 transition-colors"
               title="Approve"
             >
-              <HiCheckCircle className="h-5 w-5 text-green-600" />
+              <HiCheckCircle className="h-5 w-5 text-green-500" />
             </button>
           )}
           {p.status === "approved" && (
             <button
               onClick={() => handlePay(p)}
-              className="p-1 rounded hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
+              className="p-1.5 rounded-lg hover:bg-emerald-500/10 transition-colors"
               title="Mark as Paid"
             >
-              <HiCash className="h-5 w-5 text-emerald-600" />
+              <HiCash className="h-5 w-5 text-emerald-500" />
             </button>
           )}
         </div>
@@ -189,15 +189,17 @@ export default function PayrollView() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card>
+        <Card className="relative overflow-hidden">
+          <div className="absolute -top-4 -right-4 h-16 w-16 rounded-full bg-primary-500/10 blur-xl" />
           <p className="text-sm text-gray-500 dark:text-gray-400">Total Processed</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">
+          <p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">
             {payrolls.length}
           </p>
         </Card>
-        <Card>
+        <Card className="relative overflow-hidden">
+          <div className="absolute -top-4 -right-4 h-16 w-16 rounded-full bg-green-500/10 blur-xl" />
           <p className="text-sm text-gray-500 dark:text-gray-400">Total Payouts</p>
-          <p className="text-2xl font-bold text-green-600 mt-1">
+          <p className="text-3xl font-bold text-green-500 mt-1">
             {formatCurrency(
               payrolls
                 .filter((p) => p.status === "paid")
@@ -205,9 +207,10 @@ export default function PayrollView() {
             )}
           </p>
         </Card>
-        <Card>
+        <Card className="relative overflow-hidden">
+          <div className="absolute -top-4 -right-4 h-16 w-16 rounded-full bg-orange-500/10 blur-xl" />
           <p className="text-sm text-gray-500 dark:text-gray-400">Pending Approval</p>
-          <p className="text-2xl font-bold text-orange-600 mt-1">
+          <p className="text-3xl font-bold text-orange-500 mt-1">
             {payrolls.filter((p) => p.status === "processed").length}
           </p>
         </Card>
@@ -259,7 +262,7 @@ export default function PayrollView() {
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-white/10">
             <Button variant="secondary" onClick={() => setShowProcessModal(false)}>
               Cancel
             </Button>

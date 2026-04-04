@@ -16,13 +16,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses = {
   primary:
-    "bg-primary-600 hover:bg-primary-700 text-white shadow-sm",
+    "bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40",
   secondary:
-    "bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200",
+    "bg-gray-200/80 hover:bg-gray-300 text-gray-800 dark:bg-white/10 dark:hover:bg-white/15 dark:text-gray-200 backdrop-blur-sm",
   danger:
-    "bg-red-600 hover:bg-red-700 text-white shadow-sm",
+    "bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white shadow-lg shadow-red-500/25",
   ghost:
-    "bg-transparent hover:bg-gray-100 text-gray-700 dark:hover:bg-gray-800 dark:text-gray-300",
+    "bg-transparent hover:bg-gray-100 text-gray-700 dark:hover:bg-white/10 dark:text-gray-300",
 };
 
 const sizeClasses = {
@@ -43,10 +43,11 @@ export default function Button({
   return (
     <button
       className={`
-        inline-flex items-center justify-center rounded-lg font-medium
-        transition-colors duration-200 focus:outline-none focus:ring-2
-        focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50
-        disabled:cursor-not-allowed
+        inline-flex items-center justify-center rounded-xl font-medium
+        transition-all duration-300 focus:outline-none focus:ring-2
+        focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900
+        disabled:opacity-50 disabled:cursor-not-allowed
+        active:scale-[0.97]
         ${variantClasses[variant]}
         ${sizeClasses[size]}
         ${className}

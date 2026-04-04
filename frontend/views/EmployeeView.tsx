@@ -176,15 +176,15 @@ export default function EmployeeView() {
         <div className="flex items-center gap-2">
           <button
             onClick={(e) => { e.stopPropagation(); handleEdit(emp); }}
-            className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-1.5 rounded-lg hover:bg-blue-500/10 dark:hover:bg-blue-500/10 transition-colors"
           >
-            <HiPencil className="h-4 w-4 text-blue-600" />
+            <HiPencil className="h-4 w-4 text-blue-500" />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); handleDelete(emp); }}
-            className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-1.5 rounded-lg hover:bg-red-500/10 dark:hover:bg-red-500/10 transition-colors"
           >
-            <HiTrash className="h-4 w-4 text-red-600" />
+            <HiTrash className="h-4 w-4 text-red-500" />
           </button>
         </div>
       ),
@@ -400,7 +400,7 @@ export default function EmployeeView() {
           </div>
 
           {/* Submit */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-white/10">
             <Button variant="secondary" onClick={() => setShowModal(false)} type="button">
               Cancel
             </Button>

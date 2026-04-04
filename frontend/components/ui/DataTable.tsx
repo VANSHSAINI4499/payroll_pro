@@ -33,9 +33,9 @@ export default function DataTable<T>({
 }: DataTableProps<T>) {
   if (isLoading) {
     return (
-      <div className="animate-pulse space-y-3 p-4">
+      <div className="animate-pulse space-y-3 p-6">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="h-10 bg-gray-200 dark:bg-gray-700 rounded" />
+          <div key={i} className="h-10 bg-gray-200 dark:bg-white/5 rounded-lg" />
         ))}
       </div>
     );
@@ -44,7 +44,7 @@ export default function DataTable<T>({
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm text-left">
-        <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+        <thead className="text-xs uppercase bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-white/10">
           <tr>
             {columns.map((col) => (
               <th
@@ -72,8 +72,9 @@ export default function DataTable<T>({
                 key={keyExtractor(item)}
                 onClick={() => onRowClick?.(item)}
                 className={`
-                  border-b border-gray-100 dark:border-gray-700
-                  hover:bg-gray-50 dark:hover:bg-gray-800/50
+                  border-b border-gray-100 dark:border-white/5
+                  hover:bg-gray-50 dark:hover:bg-white/[0.03]
+                  transition-colors duration-150
                   ${onRowClick ? "cursor-pointer" : ""}
                 `}
               >
